@@ -6,11 +6,11 @@ import time
 
 def test_gmail():
     email_config = {
-        'sender': 'boatengshadrack27@gmail.com',
-        'smtp_server': 'smtp.gmail.com',
-        'port': 465,
-        'username': 'boatengshadrack27@gmail.com',
-        'password': 'wtfe nsma iiiq ojsi'  # Your app password
+       'sender': 'your_email@gmail.com',
+       'smtp_server': 'smtp.gmail.com',
+       'port': 465,
+       'username': 'your_email@gmail.com',
+       'password': 'generated_pin'
     }
 
     try:
