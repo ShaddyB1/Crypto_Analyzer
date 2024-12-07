@@ -63,12 +63,12 @@ def print_analysis(analysis):
 
 
 email_config = {
-    'sender': 'boatengshadrack27@gmail.com',
-    'smtp_server': 'smtp.gmail.com',
-    'port': 465,
-    'username': 'boatengshadrack27@gmail.com',
-    'password': 'wtfe nsma iiiq ojsi'
-}
+       'sender': 'your_email@gmail.com',
+       'smtp_server': 'smtp.gmail.com',
+       'port': 465,
+       'username': 'your_email@gmail.com',
+       'password': 'generated_pin'
+    }
 
 recipient_emails = ['boatengshadrack27@gmail.com', 'mannymart026@icloud.com']
 
