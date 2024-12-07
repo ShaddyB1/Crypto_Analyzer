@@ -1,0 +1,7 @@
+*.log
+*.db
+.DS_Store
+__pycache__/
+*.pyc
+last_alert_time.txt
+nohup.out
