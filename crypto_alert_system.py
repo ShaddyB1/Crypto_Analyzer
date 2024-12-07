@@ -30,7 +30,7 @@ class PredictionRecord:
     """Store prediction data and outcomes"""
     timestamp: str
     coin_symbol: str
-    prediction_type: str  # 'price_movement', 'risk_level', etc.
+    prediction_type: str  
     predicted_value: float
     actual_value: float
     features: Dict[str, float]
@@ -38,7 +38,7 @@ class PredictionRecord:
 
 @dataclass
 class BTCAnalysis:
-    """Bitcoin analysis data container"""
+    """Bitcoin analysis data"""
     price: float
     price_history: List[float]
     change_24h: float
@@ -131,31 +131,31 @@ class PredictionTracker:
                 WHERE actual_value IS NOT NULL
             ''', conn)
             
-        if len(df) < 100:  # Wait for sufficient data
+        if len(df) < 100:  
             return
             
-        # Prepare features
+        
         X = pd.DataFrame([json.loads(f) for f in df['features']])
         y = df['was_correct'].values
         
-        # Scale features
+        
         X_scaled = self.scaler.fit_transform(X)
         
-        # Train model
+        
         self.model = RandomForestClassifier(n_estimators=100)
         self.model.fit(X_scaled, y)
         
     def get_prediction_confidence(self, features: Dict[str, float]) -> float:
         """Get confidence score for a new prediction"""
         if self.model is None:
-            return 0.5  # Default confidence when no model exists
+            return 0.5  
             
         features_df = pd.DataFrame([features])
         features_scaled = self.scaler.transform(features_df)
         
-        # Get probability of success
+        #probability of success
         proba = self.model.predict_proba(features_scaled)[0]
-        return proba[1]  # Probability of correct prediction
+        return proba[1]  
 
 class MailingListManager:
     """Manage email subscriptions"""
@@ -242,9 +242,9 @@ class EnhancedCryptoAlertSystem:
 
         # API rate limiting
         self.last_api_call = 0
-        self.API_CALL_DELAY = 1.5  # seconds
+        self.API_CALL_DELAY = 1.5  
 
-        # Technical analysis parameters
+        
         self.RSI_PERIOD = 14
         self.MACD_FAST = 12
         self.MACD_SLOW = 26
@@ -256,8 +256,8 @@ class EnhancedCryptoAlertSystem:
         self.BTC_INFLUENCE_THRESHOLD = 0.7
 
         # Market cap range
-        self.MIN_MARKET_CAP = 5_000_000  # $5M
-        self.MAX_MARKET_CAP = 100_000_000  # $100M
+        self.MIN_MARKET_CAP = 5_000_000  
+        self.MAX_MARKET_CAP = 100_000_000  
 
     def _setup_logging(self) -> logging.Logger:
         """Configure rotating log file handler."""
@@ -265,7 +265,7 @@ class EnhancedCryptoAlertSystem:
         logger.setLevel(logging.INFO)
         handler = logging.handlers.RotatingFileHandler(
             'crypto_alerts.log',
-            maxBytes=10485760,  # 10MB
+            maxBytes=10485760,  
             backupCount=5
         )
         formatter = logging.Formatter(
@@ -290,7 +290,7 @@ class EnhancedCryptoAlertSystem:
     def fetch_btc_data(self) -> Dict:
         """Fetch comprehensive Bitcoin data with enhanced retry mechanism"""
         MAX_RETRIES = 3
-        BASE_DELAY = 15  # Increased base delay
+        BASE_DELAY = 15  
         
         def make_request_with_retry(endpoint: str, params: Dict = None) -> Dict:
             for attempt in range(MAX_RETRIES):
@@ -399,7 +399,7 @@ class EnhancedCryptoAlertSystem:
             page = 1
             max_retries = 3
 
-            while page <= 10:  # Fetch up to 10 pages
+            while page <= 10:  
                 print(f"\nFetching page {page}...")
                 
                 params = {
@@ -479,7 +479,7 @@ class EnhancedCryptoAlertSystem:
             if btc_analysis.price == 0:
                 return
                 
-            # Log significant movements for weekly report
+            
             if abs(btc_analysis.change_24h) >= 10:
                 print(f"Significant BTC movement: {btc_analysis.change_24h:+.2f}% (logged for weekly report)")
             
@@ -506,20 +506,20 @@ class EnhancedCryptoAlertSystem:
             print("Starting BTC analysis...")
             btc_data = self.fetch_btc_data()
             
-            # Extract current price and basic metrics
+           
             current_data = btc_data.get('current_data', {})
             market_data = current_data.get('market_data', {})
             current_price = market_data.get('current_price', {}).get('usd', 0)
             change_24h = market_data.get('price_change_percentage_24h', 0)
             change_7d = market_data.get('price_change_percentage_7d', 0)
             
-            # Get price history
+            
             history_data = btc_data.get('history', {})
             price_history = [p[1] for p in history_data.get('prices', [])]
             if not price_history:
                 price_history = [current_price]
             
-            #market dominance
+            
             dominance = btc_data.get('global_data', {}).get('data', {}).get('market_cap_percentage', {}).get('btc', 40.0)
             
             
@@ -723,7 +723,7 @@ class EnhancedCryptoAlertSystem:
                         sentiment_score -= 1
                         analysis_points.append("🔴 Below average market dominance")
             
-            # MACD Analysis
+            
             if macd > signal:
                 sentiment_score += 1
                 analysis_points.append("🟢 MACD above signal line")
@@ -731,13 +731,13 @@ class EnhancedCryptoAlertSystem:
                 sentiment_score -= 1
                 analysis_points.append("🔴 MACD below signal line")
             
-            # Print analysis points
+            
             for point in analysis_points:
                 print(point)
             
             print(f"\n📊 Final Sentiment Score: {sentiment_score}")
             
-            # Convert score to sentiment
+            # Convert score 
             if sentiment_score >= 5:
                 return "Strongly Bullish"
             elif sentiment_score >= 2:
@@ -758,7 +758,7 @@ class EnhancedCryptoAlertSystem:
     def calculate_market_correlations(self, btc_prices: List[float]) -> Dict[str, float]:
         """Calculate correlations between BTC and other market data"""
         try:
-            # Fetch comparison data
+            
             sp500_data = self.fetch_market_data('SP500')
             gold_data = self.fetch_market_data('GOLD')
             
@@ -784,7 +784,7 @@ class EnhancedCryptoAlertSystem:
         """Fetch market data for comparison assets"""
         try:
             base_url = "https://www.alphavantage.co/query"
-            api_key = "YOUR_ALPHA_VANTAGE_KEY"  # You can get a free key from Alpha Vantage
+            api_key = "YOUR_ALPHA_VANTAGE_KEY"  
             
             if asset == 'SP500':
                 symbol = 'SPY'
@@ -804,7 +804,7 @@ class EnhancedCryptoAlertSystem:
             
             time_series = data.get('Time Series (Daily)', {})
             prices = [float(v['4. close']) for v in list(time_series.values())[:30]]
-            return prices[::-1]  # Reverse to get chronological order
+            return prices[::-1]  # Reverse to chronological order
             
         except Exception as e:
             self.logger.error(f"Error fetching market data for {asset}: {str(e)}")
@@ -856,7 +856,7 @@ class EnhancedCryptoAlertSystem:
             btc_data = self.fetch_btc_data()
             current_price = btc_data.get('current_data', {}).get('market_data', {}).get('current_price', {}).get('usd', 0)
 
-            # Update predictions from 24 hours ago
+            
             timestamp = (datetime.now() - timedelta(hours=24)).isoformat()
             self.prediction_tracker.update_prediction_outcome(
                 timestamp, 'BTC', current_price
@@ -1211,14 +1211,14 @@ def install_required_packages():
 if __name__ == "__main__":
     
     email_config = {
-       'sender': 'boatengshadrack27@gmail.com',
+       'sender': 'your_email@gmail.com',
        'smtp_server': 'smtp.gmail.com',
        'port': 465,
-       'username': 'boatengshadrack27@gmail.com',
-       'password': 'wtfe nsma iiiq ojsi'
+       'username': 'your_email@gmail.com',
+       'password': 'generated_pin'
     }
 
-    initial_recipients = ['boatengshadrack27@gmail.com', 'mannymart026@gmail.com', 'Reyes.maru23@hotmail.com']
+    initial_recipients = ['your_email@gmail.com', 'friends_email', 'more_friends@email']
 
     if len(sys.argv) > 1:
         if sys.argv[1] == '--setup-service':
