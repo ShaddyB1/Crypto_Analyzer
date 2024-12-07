@@ -70,7 +70,8 @@ email_config = {
        'password': 'generated_pin'
     }
 
-recipient_emails = ['boatengshadrack27@gmail.com', 'mannymart026@icloud.com']
+recipient_emails = ['your_email@gmail.com', 'friends_email', 'more_friends@email']
+
 
 print("Testing API connection...")
 if not test_api_connection():
