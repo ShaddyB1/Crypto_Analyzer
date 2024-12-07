@@ -1,14 +1,15 @@
 if __name__ == "__main__":
-    # Email configuration
+    
     email_config = {
-       'sender': 'boatengshadrack27@gmail.com',
+       'sender': 'your_email@gmail.com',
        'smtp_server': 'smtp.gmail.com',
        'port': 465,
-       'username': 'boatengshadrack27@gmail.com',
-       'password': 'wtfe nsma iiiq ojsi'
+       'username': 'your_email@gmail.com',
+       'password': 'generated_pin'
     }
 
-    recipient_emails = ['boatengshadrack27@gmail.com', 'mannymart026@gmail.com', 'Reyes.maru23@hotmail.com']
+    recipient_emails = ['your_email@gmail.com', 'friends_email', 'more_friends@email']
+
 
     if len(sys.argv) > 1:
         if sys.argv[1] == '--setup-service':
